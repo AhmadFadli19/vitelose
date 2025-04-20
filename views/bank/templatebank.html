@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasbor Keuangan</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        @media (max-width: 768px) {
+            .responsive-table {
+                overflow-x: auto;
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                position: fixed;
+                z-index: 50;
+                height: 100vh;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 font-sans antialiased">
+    <!-- Mobile Navigation Toggle -->
+    <div class="lg:hidden fixed top-4 left-4 z-50">
+        <button id="sidebar-toggle" class="bg-gray-800 text-white p-2 rounded-md shadow-md">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+
+    <div class="flex min-h-screen relative">
+        <!-- Sidebar -->
+        <aside id="sidebar"
+            class="sidebar bg-gray-800 text-white w-64 flex flex-col py-6 px-3 transition-all duration-300">
+            <div class="text-xl font-semibold mb-8 px-2 flex items-center justify-between">
+                <span>Plutus</span>
+                <button id="sidebar-close" class="lg:hidden text-gray-300 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="flex-grow">
+                <ul>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white bg-gray-700 text-white">
+                            <i class="fas fa-home mr-3"></i> Dasbor
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-arrow-right-arrow-left mr-3"></i> Transfer
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-list-ul mr-3"></i> Transaksi
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-credit-card mr-3"></i> Akun & Kartu
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-chart-line mr-3"></i> Investasi
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="mt-auto">
+                <ul>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-cog mr-3"></i> Pengaturan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"
+                            class="flex items-center py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white">
+                            <i class="fas fa-sign-out-alt mr-3"></i> Keluar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-gray-100 p-4 md:p-6 ml-0 lg:ml-64">
+            <div class="max-w-7xl mx-auto">
+                <!-- Header -->
+                <header class="flex items-center justify-between mb-6 mt-4 lg:mt-0">
+                    <div class="text-xl font-semibold text-gray-800">Dashboard Admin Bank </div>
+                    <div class="flex items-center">
+                        <div class="relative mr-4">
+                            <button
+                                class="bg-white text-gray-600 py-2 px-3 rounded-full hover:bg-gray-200 focus:outline-none focus:shadow-outline">
+                                <i class="fas fa-bell"></i>
+                                <span
+                                    class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center">
+                            <img src="/api/placeholder/40/40" alt="Admin Avatar"
+                                class="w-8 h-8 rounded-full mr-2 object-cover">
+                            <span class="text-gray-700 font-semibold hidden md:inline">Admin Bank</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6">
+                    <div class="bg-white shadow-md rounded-lg p-4 md:p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-gray-700 text-sm mb-1">Total Pengguna</h2>
+                                <div class="text-2xl font-bold text-gray-800">1,254</div>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <i class="fas fa-users text-blue-500"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm text-green-500 flex items-center">
+                            <i class="fas fa-arrow-up mr-1"></i> 12% dari bulan lalu
+                        </div>
+                    </div>
+
+                    <div class="bg-white shadow-md rounded-lg p-4 md:p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-gray-700 text-sm mb-1">Total Transaksi</h2>
+                                <div class="text-2xl font-bold text-gray-800">8,942</div>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i class="fas fa-exchange-alt text-green-500"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm text-green-500 flex items-center">
+                            <i class="fas fa-arrow-up mr-1"></i> 8% dari bulan lalu
+                        </div>
+                    </div>
+
+                    <div class="bg-white shadow-md rounded-lg p-4 md:p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-gray-700 text-sm mb-1">Total Dana Dikelola</h2>
+                                <div class="text-2xl font-bold text-gray-800">Rp 2,5 M</div>
+                            </div>
+                            <div class="bg-yellow-100 p-3 rounded-full">
+                                <i class="fas fa-money-bill-wave text-yellow-500"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm text-green-500 flex items-center">
+                            <i class="fas fa-arrow-up mr-1"></i> 5% dari bulan lalu
+                        </div>
+                    </div>
+
+                    <div class="bg-white shadow-md rounded-lg p-4 md:p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h2 class="text-gray-700 text-sm mb-1">Permintaan Pending</h2>
+                                <div class="text-2xl font-bold text-red-500">24</div>
+                            </div>
+                            <div class="bg-red-100 p-3 rounded-full">
+                                <i class="fas fa-clock text-red-500"></i>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-sm text-red-500 flex items-center">
+                            <i class="fas fa-arrow-up mr-1"></i> 15% dari kemarin
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Request Cards -->
+                <div class="bg-white shadow-md rounded-lg p-4 md:p-6 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-gray-700 font-semibold text-lg">Permintaan Dana Pending</h2>
+                        <div class="flex space-x-2">
+                            <a href="#" class="text-blue-500 text-sm hover:underline">Lihat semua permintaan</a>
+                        </div>
+                    </div>
+
+                    <div class="responsive-table">
+                        <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        ID</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Nama Pengguna</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tipe</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Jumlah</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">#TRX-1942</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex items-center">
+                                            <img src="/api/placeholder/30/30" alt="User Avatar"
+                                                class="h-6 w-6 rounded-full mr-2 object-cover">
+                                            <div>
+                                                <div class="font-semibold text-gray-800">Nicola</div>
+                                                <div class="text-xs text-gray-500">ID: 12345</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <span class="bg-blue-100 text-blue-600 py-1 px-2 rounded-full text-xs">Transfer</span>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 font-semibold">Rp 1.000.000</td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">19 Apr 2025</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex space-x-2">
+                                            <button
+                                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-check mr-1"></i> Setuju
+                                            </button>
+                                            <button
+                                                class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-times mr-1"></i> Tolak
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">#TRX-1941</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex items-center">
+                                            <img src="/api/placeholder/30/30" alt="User Avatar"
+                                                class="h-6 w-6 rounded-full mr-2 object-cover">
+                                            <div>
+                                                <div class="font-semibold text-gray-800">Maria Ungu</div>
+                                                <div class="text-xs text-gray-500">ID: 12339</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <span
+                                            class="bg-red-100 text-red-600 py-1 px-2 rounded-full text-xs">Withdraw</span>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 font-semibold">Rp 750.000</td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">18 Apr 2025</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex space-x-2">
+                                            <button
+                                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-check mr-1"></i> Setuju
+                                            </button>
+                                            <button
+                                                class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-times mr-1"></i> Tolak
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">#TRX-1940</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex items-center">
+                                            <img src="/api/placeholder/30/30" alt="User Avatar"
+                                                class="h-6 w-6 rounded-full mr-2 object-cover">
+                                            <div>
+                                                <div class="font-semibold text-gray-800">Budi Santoso</div>
+                                                <div class="text-xs text-gray-500">ID: 12317</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <span class="bg-green-100 text-green-600 py-1 px-2 rounded-full text-xs">Top
+                                            Up</span>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 font-semibold">Rp 500.000</td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">18 Apr 2025</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex space-x-2">
+                                            <button
+                                                class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-check mr-1"></i> Setuju
+                                            </button>
+                                            <button
+                                                class="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-times mr-1"></i> Tolak
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- User List -->
+                <div class="bg-white shadow-md rounded-lg p-4 md:p-6 mb-6">
+                    <div class="flex flex-wrap justify-between items-center mb-4">
+                        <h2 class="text-gray-700 font-semibold text-lg">Daftar Pengguna</h2>
+                        <div class="flex mt-2 sm:mt-0">
+                            <div class="relative mr-2">
+                                <input type="text" placeholder="Cari pengguna..."
+                                    class="w-full md:w-64 bg-gray-100 border border-gray-300 rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <button class="absolute right-0 top-0 mt-2 mr-2 text-gray-500"><i
+                                        class="fas fa-search"></i></button>
+                            </div>
+                            <button
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded flex items-center">
+                                <i class="fas fa-user-plus mr-1"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="responsive-table">
+                        <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        ID</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Pengguna</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Email</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tipe</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Saldo</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal Daftar</th>
+                                    <th
+                                        class="border border-gray-200 px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tindakan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">12345</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex items-center">
+                                            <img src="/api/placeholder/30/30" alt="User Avatar"
+                                                class="h-6 w-6 rounded-full mr-2 object-cover">
+                                            <div class="font-semibold text-gray-800">Nicola</div>
+                                        </div>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">
+                                        nicola@example.com</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <span
+                                            class="bg-gray-100 text-gray-600 py-1 px-2 rounded-full text-xs">User</span>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 font-semibold">Rp 10.000.000</td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">01 Jan 2025</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex space-x-2">
+                                            <button data-modal-target="userModal"
+                                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-info-circle mr-1"></i> Detail
+                                            </button>
+                                            <button
+                                                class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-money-bill-wave mr-1"></i> Top Up
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">12339</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex items-center">
+                                            <img src="/api/placeholder/30/30" alt="User Avatar"
+                                                class="h-6 w-6 rounded-full mr-2 object-cover">
+                                            <div class="font-semibold text-gray-800">Maria Ungu</div>
+                                        </div>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">
+                                        maria@example.com</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <span
+                                            class="bg-gray-100 text-gray-600 py-1 px-2 rounded-full text-xs">User</span>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 font-semibold">Rp 5.250.000</td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">15 Jan 2025</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex space-x-2">
+                                            <button
+                                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-info-circle mr-1"></i> Detail
+                                            </button>
+                                            <button
+                                                class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-money-bill-wave mr-1"></i> Top Up
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">12317</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex items-center">
+                                            <img src="/api/placeholder/30/30" alt="User Avatar"
+                                                class="h-6 w-6 rounded-full mr-2 object-cover">
+                                            <div class="font-semibold text-gray-800">Budi Santoso</div>
+                                        </div>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">budi@example.com
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <span
+                                            class="bg-gray-100 text-gray-600 py-1 px-2 rounded-full text-xs">User</span>
+                                    </td>
+                                    <td class="border border-gray-200 px-4 py-3 font-semibold">Rp 2.750.000</td>
+                                    <td class="border border-gray-200 px-4 py-3 text-sm text-gray-600">25 Feb 2025</td>
+                                    <td class="border border-gray-200 px-4 py-3">
+                                        <div class="flex space-x-2">
+                                            <button
+                                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-info-circle mr-1"></i> Detail
+                                            </button>
+                                            <button
+                                                class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-1 px-2 rounded text-xs flex items-center">
+                                                <i class="fas fa-money-bill-wave mr-1"></i> Top Up
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Toggle sidebar for mobile
+        document.getElementById('sidebar-toggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.add('open');
+        });
+
+        document.getElementById('sidebar-close').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('open');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+
+            if (window.innerWidth < 1024) {
+                if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target) && sidebar.classList
+                    .contains('open')) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+
+        // Ensure sidebar is visible on desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 1024) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    </script>
+</body>
+
+</html>
